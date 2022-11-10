@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Dish {
+  id                 String               @id @default(uuid())
+  name               String
+  price              Decimal?
+  available          Boolean?
+  DishesOnCategories DishesOnCategories[]
+
+  @@map(name: "dish")
+}
+
+model Category {
+  id     Int                  @id @default(autoincrement())
+  name   String
+  dishes DishesOnCategories[]
+
+  @@map(name: "category")
+}
+
+model DishesOnCategories {
+  dish       Dish     @relation(fields: [dishId], references: [id])
+  dishId     String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([dishId, categoryId])
+  @@map(name: "relations")
+}
