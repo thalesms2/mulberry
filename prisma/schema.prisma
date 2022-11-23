@@ -10,32 +10,164 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Dish {
-  id                 String               @id @default(uuid())
-  name               String
-  price              Decimal?
-  available          Boolean?
-  DishesOnCategories DishesOnCategories[]
+model Brands {
+  id          Int        @id @default(autoincrement())
+  description String
+  Products    Products[]
 
-  @@map(name: "dish")
+  @@map(name: "brands")
 }
 
-model Category {
-  id     Int                  @id @default(autoincrement())
-  name   String
-  dishes DishesOnCategories[]
+model Groups {
+  id          Int        @id @default(autoincrement())
+  description String
+  Products    Products[]
 
-  @@map(name: "category")
+  @@map(name: "groups")
 }
 
-model DishesOnCategories {
-  dish       Dish     @relation(fields: [dishId], references: [id])
-  dishId     String
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-  assignedAt DateTime @default(now())
-  assignedBy String
+model Products {
+  id           Int            @id @default(autoincrement())
+  description  String
+  unit         String
+  brandId      Int
+  Brand        Brands         @relation(fields: [brandId], references: [id])
+  groupId      Int
+  Group        Groups         @relation(fields: [groupId], references: [id])
+  cost         Decimal
+  profit       Decimal
+  price        Decimal
+  createdAt    DateTime       @default(now()) @map(name: "created_at")
+  updatedAt    DateTime       @updatedAt @map(name: "updated_at")
+  Transactions Transactions[]
+  Inventory    Inventory[]
+  Items        Items[]
 
-  @@id([dishId, categoryId])
-  @@map(name: "relations")
+  @@map(name: "products")
+}
+
+model Transactions {
+  id          Int      @id @default(autoincrement())
+  type        String
+  transaction String
+  productId   Int
+  Product     Products @relation(fields: [productId], references: [id])
+  quantity    Decimal
+  cost        Decimal
+  price       Decimal
+  userId      Int
+  createdAt   DateTime @default(now()) @map(name: "created_at")
+  updatedAt   DateTime @updatedAt @map(name: "updated_at")
+
+  @@map(name: "transactions")
+}
+
+model Inventory {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  Product   Products @relation(fields: [productId], references: [id])
+  quantity  Decimal
+
+  @@map(name: "inventory")
+}
+
+model Users {
+  id       Int    @id @default(autoincrement())
+  name     String
+  password String
+  Logs     Logs[]
+
+  @@map(name: "users")
+}
+
+model Logs {
+  id          Int      @id @default(autoincrement())
+  date        DateTime
+  userId      Int
+  User        Users    @relation(fields: [userId], references: [id])
+  type        String
+  description String
+
+  @@map(name: "logs")
+}
+
+model States {
+  code  String  @id
+  name  String
+  Citys Citys[]
+
+  @@map(name: "states")
+}
+
+model Citys {
+  code      Int       @id @default(autoincrement())
+  name      String
+  codeState String
+  State     States    @relation(fields: [codeState], references: [code])
+  Clients   Clients[]
+
+  @@map(name: "citys")
+}
+
+model Sellers {
+  id        Int     @id @default(autoincrement())
+  name      String
+  comission Decimal
+  Sells     Sells[]
+
+  @@map(name: "sellers")
+}
+
+model Clients {
+  id           Int      @id @default(autoincrement())
+  name         String
+  cpf          String
+  cityId       Int
+  City         Citys    @relation(fields: [cityId], references: [code])
+  adress       String
+  neighborhood String
+  cep          String
+  birth        DateTime
+  createdAt    DateTime @default(now()) @map(name: "created_at")
+  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  priceTable   Int
+  Sells        Sells[]
+
+  @@map(name: "clients")
+}
+
+model Sells {
+  notaNumber Int      @unique
+  emission   DateTime
+  sellerId   Int
+  Seller     Sellers  @relation(fields: [sellerId], references: [id])
+  clientId   Int
+  Client     Clients  @relation(fields: [clientId], references: [id])
+  priceTable Int
+  quantity   Int
+  discont    Decimal
+  total      Decimal
+  Items      Items[]
+
+  @@map(name: "sells")
+}
+
+model Items {
+  id           Int      @id @default(autoincrement())
+  notaNumber   Int
+  Sell         Sells    @relation(fields: [notaNumber], references: [notaNumber])
+  productId    Int
+  Product      Products @relation(fields: [productId], references: [id])
+  unitaryPrice Decimal
+  discount     Decimal
+  total        Decimal
+
+  @@map(name: "items")
+}
+
+model Company {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map(name: "company")
 }
