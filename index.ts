@@ -1,52 +1,39 @@
-import { PrismaClient } from "@prisma/client";
 import express from "express";
+import brand from "./routes/Brands";
+import group from "./routes/Groups";
+import product from "./routes/Products";
+import city from "./routes/Citys";
+import client from "./routes/Clients";
+import company from "./routes/Company";
+import inventory from "./routes/Inventory";
+import item from "./routes/Items";
+import log from "./routes/Logs";
+import seller from "./routes/Sellers";
+import sell from "./routes/Sells";
+import state from "./routes/States";
+import transaction from "./routes/Transactions";
+import user from "./routes/Users";
 
-const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
 
-app.post("/api/dish", async (req, res) => {
-    const { name, price } = req.body;
-    const result = await prisma.dish.create({
-        data: {
-            name,
-            price,
-            available: false,
-        },
-    });
-    res.json(result);
-});
-
-app.get("/api/dish", async (req, res) => {
-    const dishes = await prisma.dish.findMany();
-    res.json(dishes);
-});
-
-app.put("/api/dish", async (req, res) => {
-    const { id, name, price } = req.query;
-    const result = await prisma.dish.update({
-        where: {
-            id: String(id),
-        },
-        data: {
-            name: String(name),
-            price: Number(price),
-        },
-    });
-    res.json(result);
-});
-
-app.post("/api/category", async (req, res) => {
-    const { name } = req.query
-    const result = await prisma.category.create({
-        data: {
-            name: String(name)
-        }
-    })
-    res.json(result)
-})
+app.use("/brand", brand);
+app.use("/city", city);
+app.use("/client", client);
+app.use("/company", company);
+app.use("/group", group);
+app.use("/inventory", inventory);
+app.use("/item", item);
+app.use("/log", log);
+app.use("/product", product);
+app.use("/seller", seller);
+app.use("/sell", sell);
+app.use("/state", state);
+app.use("/transaction", transaction);
+app.use("/user", user);
 
 const port = 3000;
 app.listen(port, () =>
-    console.log(`🚀 Server ready at: http://localhost:${port}`));
+    console.log(`🚀 Server ready at: http://localhost:${port}`)
+);

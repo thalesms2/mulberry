@@ -29,16 +29,12 @@ model Groups {
 model Products {
   id           Int            @id @default(autoincrement())
   description  String
-  unit         String
-  brandId      Int
-  Brand        Brands         @relation(fields: [brandId], references: [id])
-  groupId      Int
-  Group        Groups         @relation(fields: [groupId], references: [id])
+  measurement  String
+  brand        Brands[]
+  group        Groups[]
   cost         Decimal
   profit       Decimal
   price        Decimal
-  createdAt    DateTime       @default(now()) @map(name: "created_at")
-  updatedAt    DateTime       @updatedAt @map(name: "updated_at")
   Transactions Transactions[]
   Inventory    Inventory[]
   Items        Items[]
@@ -100,11 +96,11 @@ model States {
 }
 
 model Citys {
-  code      Int       @id @default(autoincrement())
-  name      String
-  codeState String
-  State     States    @relation(fields: [codeState], references: [code])
-  Clients   Clients[]
+  code       Int       @id @default(autoincrement())
+  name       String
+  Clients    Clients[]
+  state     States   @relation(fields: [statesCode], references: [code])
+  statesCode String
 
   @@map(name: "citys")
 }
