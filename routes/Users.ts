@@ -22,10 +22,7 @@ router.get("/", async (req, res) => {
                     user.id
                 ),
             };
-            res.cookie("userId", user.id, {
-                path: "/login",
-                secure: true,
-            }).json(result);
+            res.cookie("userId", user.id).json(result);
         } else {
             res.json({ login: false });
         }

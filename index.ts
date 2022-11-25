@@ -13,10 +13,12 @@ import sell from "./routes/Sells";
 import state from "./routes/States";
 import transaction from "./routes/Transactions";
 import user from "./routes/Users";
+import cookieParser from 'cookie-parser'
 
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 app.use("/brand", brand);
 app.use("/city", city);

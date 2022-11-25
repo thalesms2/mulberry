@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const { name, codeState } = req.body;
     if (name && codeState) {
-        const result = await prisma.citys.create({
+        const city = await prisma.citys.create({
             data: {
                 name: String(name),
                 state: {
@@ -28,6 +29,15 @@ router.post("/", async (req, res) => {
                 },
             },
         });
+        const result = {
+            city: city,
+            log: await generateLog(
+                'CREATE',
+                `CITY ${city.code} - ${city.name}-${city.statesCode} CREATED`,
+                Number(req.cookies.userId)
+            )
+        }
+        
         res.json(result);
     } else {
         res.sendStatus(204);

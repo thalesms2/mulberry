@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
             log: await generateLog(
                 "CREATE",
                 `BRAND ${brand.id} - ${brand.description} CREATED`,
-                req.cookies.userId
+                Number(req.cookies.userId)
             ),
         };
         res.json(result);
@@ -53,7 +53,7 @@ router.put("/", async (req, res) => {
             log: await generateLog(
                 "EDIT",
                 `BRAND ${brand.id} EDITED - DESCRIPTION ${oldBrand.description} NEW DESCRIPTION ${brand.description} `,
-                req.cookies.userId
+                Number(req.cookies.userId)
             ),
         };
         res.json(result);
@@ -73,7 +73,7 @@ router.delete("/", async (req, res) => {
             log: await generateLog(
                 "DELETE",
                 `BRAND ${brand.id} - ${brand.description} DELETED`,
-                req.cookies.userId
+                Number(req.cookies.userId)
             ),
         };
         res.json(result);
