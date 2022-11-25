@@ -34,4 +34,39 @@ router.post("/", async (req, res) => {
     }
 });
 
+router.put("/", async (req, res) => {
+    const { code, name, codeState } = req.body;
+    if (code) {
+        const city = await prisma.citys.findUnique({
+            where: { code: Number(code) }
+        })
+        const result = await prisma.citys.update({
+            where: {
+                code: Number(code),
+            },
+            data: {
+                name: name ? String(name) : city.name,
+                statesCode: codeState ?  String(codeState) : city.statesCode,
+            },
+        });
+        res.json(result);
+    } else {
+        res.sendStatus(204);
+    }
+});
+
+router.delete("/", async (req, res) => {
+    const { code } = req.body;
+    if (code) {
+        const result = await prisma.citys.delete({
+            where: {
+                code: Number(code),
+            },
+        });
+        res.json(result)
+    } else {
+        res.sendStatus(204)
+    }
+});
+
 export default router;

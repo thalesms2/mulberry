@@ -1,6 +1,6 @@
 {
     "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"],
-    "watch": ["routes", "index"],
+    "watch": ["routes", "index", "controllers"],
     "exec": "npm start",
     "ext": "ts"
 }

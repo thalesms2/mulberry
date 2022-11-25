@@ -52,6 +52,7 @@ model Transactions {
   cost        Decimal
   price       Decimal
   userId      Int
+  User        Users    @relation(fields: [userId], references: [id])
   createdAt   DateTime @default(now()) @map(name: "created_at")
   updatedAt   DateTime @updatedAt @map(name: "updated_at")
 
@@ -68,21 +69,22 @@ model Inventory {
 }
 
 model Users {
-  id       Int    @id @default(autoincrement())
-  name     String
-  password String
-  Logs     Logs[]
+  id           Int            @id @default(autoincrement())
+  name         String
+  password     String
+  Logs         Logs[]
+  Transactions Transactions[]
 
   @@map(name: "users")
 }
 
 model Logs {
   id          Int      @id @default(autoincrement())
-  date        DateTime
-  userId      Int
-  User        Users    @relation(fields: [userId], references: [id])
   type        String
   description String
+  userId      Int
+  User        Users    @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now()) @map(name: "created_at")
 
   @@map(name: "logs")
 }
@@ -99,7 +101,7 @@ model Citys {
   code       Int       @id @default(autoincrement())
   name       String
   Clients    Clients[]
-  state     States   @relation(fields: [statesCode], references: [code])
+  state      States    @relation(fields: [statesCode], references: [code])
   statesCode String
 
   @@map(name: "citys")
