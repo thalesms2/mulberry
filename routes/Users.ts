@@ -5,13 +5,13 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
     const { id, password } = req.body;
     if (id && password) {
         const user = await prisma.users.findUnique({
             where: { id: Number(id) },
         });
-        if (password === user.password) {
+        if (String(password) == String(user.password)) {
             const result = {
                 login: true,
                 id: user.id,
@@ -31,20 +31,20 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/", async (req, res) => {
-    const { name, password } = req.body;
-    if (name) {
-        const result = await prisma.users.create({
-            data: {
-                name: String(name),
-                password: password ? String(password) : "0000",
-            },
-        });
-        res.json(result);
-    } else {
-        res.sendStatus(204);
-    }
-});
+// router.post("/", async (req, res) => {
+//     const { name, password } = req.body;
+//     if (name) {
+//         const result = await prisma.users.create({
+//             data: {
+//                 name: String(name),
+//                 password: password ? String(password) : "0000",
+//             },
+//         });
+//         res.json(result);
+//     } else {
+//         res.sendStatus(204);
+//     }
+// });
 
 router.put("/", async (req, res) => {
     const { id, name, password } = req.body;
