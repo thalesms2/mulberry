@@ -1,19 +1,36 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { id } = req.body;
-    if (id) {
-        const result = await prisma.users.findUnique({
+    const { id, password } = req.body;
+    if (id && password) {
+        const user = await prisma.users.findUnique({
             where: { id: Number(id) },
         });
-        res.json(result);
+        if (password === user.password) {
+            const result = {
+                login: true,
+                id: user.id,
+                name: user.name,
+                log: await generateLog(
+                    "LOGIN",
+                    `LOGIN USER ${user.id} - ${user.name}`,
+                    user.id
+                ),
+            };
+            res.cookie("userId", user.id, {
+                path: "/login",
+                secure: true,
+            }).json(result);
+        } else {
+            res.json({ login: false });
+        }
     } else {
-        const result = await prisma.users.findMany();
-        res.json(result);
+        res.sendStatus(204);
     }
 });
 
@@ -36,13 +53,13 @@ router.put("/", async (req, res) => {
     const { id, name, password } = req.body;
     if (id) {
         const user = await prisma.users.findUnique({
-            where: { id: Number(id)}
-        })
+            where: { id: Number(id) },
+        });
         const result = await prisma.users.update({
             where: { id: Number(id) },
             data: {
                 name: name ? String(name) : user.name,
-                password: password ? String(password) : user.password
+                password: password ? String(password) : user.password,
             },
         });
         res.json(result);

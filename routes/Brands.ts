@@ -21,12 +21,17 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
     const { description } = req.body;
     if (description) {
+        const brand = await prisma.brands.create({
+            data: { description: String(description) },
+        });
         const result = {
-            return: await prisma.brands.create({
-                data: { description: String(description) },
-            }),
-            log: await generateLog('CREATE', `BRAND ${description} CREATED`, 1)
-        }
+            brand: brand,
+            log: await generateLog(
+                "CREATE",
+                `BRAND ${brand.id} - ${brand.description} CREATED`,
+                req.cookies.userId
+            ),
+        };
         res.json(result);
     } else {
         res.sendStatus(204);
@@ -36,13 +41,21 @@ router.post("/", async (req, res) => {
 router.put("/", async (req, res) => {
     const { id, description } = req.body;
     if (id && description) {
+        const oldBrand = await prisma.brands.findUnique({
+            where: { id: Number(id) },
+        });
+        const brand = await prisma.brands.update({
+            where: { id: Number(id) },
+            data: { description: String(description) },
+        });
         const result = {
-            return: await prisma.brands.update({
-                where: { id: Number(id) },
-                data: { description: String(description) },
-            }),
-            log: await generateLog('EDIT', 'BRAND EDITED', 1)
-        }
+            brand: brand,
+            log: await generateLog(
+                "EDIT",
+                `BRAND ${brand.id} EDITED - DESCRIPTION ${oldBrand.description} NEW DESCRIPTION ${brand.description} `,
+                req.cookies.userId
+            ),
+        };
         res.json(result);
     } else {
         res.sendStatus(204);
@@ -51,13 +64,21 @@ router.put("/", async (req, res) => {
 
 router.delete("/", async (req, res) => {
     const { id } = req.body;
-    if(id) {
-        const result = await prisma.brands.delete({
+    if (id) {
+        const brand = await prisma.brands.delete({
             where: { id: Number(id) },
         });
+        const result = {
+            brand: brand,
+            log: await generateLog(
+                "DELETE",
+                `BRAND ${brand.id} - ${brand.description} DELETED`,
+                req.cookies.userId
+            ),
+        };
         res.json(result);
     } else {
-        res.sendStatus(204)
+        res.sendStatus(204);
     }
 });
 

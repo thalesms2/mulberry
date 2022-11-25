@@ -33,7 +33,7 @@ app.use("/state", state);
 app.use("/transaction", transaction);
 app.use("/user", user);
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 app.listen(port, () =>
     console.log(`🚀 Server ready at: http://localhost:${port}`)
 );
