@@ -28,9 +28,8 @@ router.post("/", async (req, res) => {
         }
     } else {
         res.json({
-            id: id,
-            password: password,  
-            result: "não foi"          
+            login: false,
+            message: 'faltou informação'      
         });
     }
 });
