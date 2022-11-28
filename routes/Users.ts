@@ -24,14 +24,16 @@ router.post("/", async (req, res) => {
             };
             res.cookie("userId", user.id).json(result);
         } else {
-            res.json({ login: false });
+            res.json({ 
+                login: false,
+                message: 'wrong password' 
+            });
         }
-    } else {
-        res.json({
-            login: false,
-            message: 'faltou informação'      
-        });
-    }
+    } 
+    res.json({
+        login: false,
+        message: 'faltou informação'      
+    });
 });
 
 // router.post("/", async (req, res) => {
