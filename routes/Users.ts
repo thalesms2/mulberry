@@ -27,7 +27,10 @@ router.post("/", async (req, res) => {
             res.json({ login: false });
         }
     } else {
-        res.sendStatus(204);
+        res.json({
+            id: id,
+            password: password,            
+        });
     }
 });
 
