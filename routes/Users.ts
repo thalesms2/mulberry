@@ -29,7 +29,8 @@ router.post("/", async (req, res) => {
     } else {
         res.json({
             id: id,
-            password: password,            
+            password: password,  
+            result: "não foi"          
         });
     }
 });
