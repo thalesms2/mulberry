@@ -13,12 +13,21 @@ import sell from "./routes/Sells";
 import state from "./routes/States";
 import transaction from "./routes/Transactions";
 import user from "./routes/Users";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
 
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 
 app.use("/brand", brand);
 app.use("/city", city);
