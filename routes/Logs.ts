@@ -40,4 +40,9 @@ router.delete("/", async (req, res) => {
     res.sendStatus(204);
 });
 
+router.delete("/all", async (req, res) => {
+    const result = await prisma.logs.deleteMany({})
+    res.json(result)
+});
+
 export default router;
