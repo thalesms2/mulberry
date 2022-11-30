@@ -5,15 +5,8 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { id } = req.body;
-    if (id) {
-        const result = await prisma.logs.findUnique({
-            where: { id: Number(id) },
-        });
-        res.json(result);
-    } else {
-        res.sendStatus(204);
-    }
+    const result = await prisma.logs.findMany({});
+    res.json(result);
 });
 
 router.post("/", async (req, res) => {
