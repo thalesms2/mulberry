@@ -7,10 +7,11 @@ const prisma = new PrismaClient();
 router.get("/", async (req, res) => {
     const result = await prisma.logs.findMany({
         orderBy: {
-            createdAt: 'desc'
-        }
+            createdAt: "desc",
+        },
     });
     res.json(result);
+    prisma.$disconnect;
 });
 
 router.post("/", async (req, res) => {
@@ -38,8 +39,8 @@ router.delete("/", async (req, res) => {
 });
 
 router.delete("/all", async (req, res) => {
-    const result = await prisma.logs.deleteMany({})
-    res.json(result)
+    const result = await prisma.logs.deleteMany({});
+    res.json(result);
 });
 
 export default router;
