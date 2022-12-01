@@ -10,8 +10,8 @@ router.get("/", async (req, res) => {
             createdAt: "desc",
         },
     });
-    res.json(result);
     await prisma.$disconnect;
+    res.json(result);
 });
 
 router.post("/", async (req, res) => {
