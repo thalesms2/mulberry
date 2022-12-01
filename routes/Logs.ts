@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
         },
     });
     res.json(result);
-    prisma.$disconnect;
+    await prisma.$disconnect;
 });
 
 router.post("/", async (req, res) => {
