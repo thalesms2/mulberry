@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 router.get("/", async (req, res) => {
     const result = await prisma.logs.findMany({
         orderBy: {
-            createdAt: 'asc'
+            createdAt: 'desc'
         }
     });
     res.json(result);
