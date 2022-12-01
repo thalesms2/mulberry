@@ -5,7 +5,11 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const result = await prisma.logs.findMany({});
+    const result = await prisma.logs.findMany({
+        orderBy: {
+            createdAt: 'asc'
+        }
+    });
     res.json(result);
 });
 
