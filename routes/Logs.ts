@@ -9,8 +9,7 @@ router.get("/", async (req, res) => {
         orderBy: {
             createdAt: "desc",
         },
-    });
-    await prisma.$disconnect;
+    })
     res.json(result);
 });
 

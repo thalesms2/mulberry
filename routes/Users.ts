@@ -5,6 +5,15 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
+router.get("/", async (req, res) => {
+    const users = await prisma.users.findMany({
+        orderBy: {
+            id: 'asc'
+        }
+    })
+    res.json(users)
+})
+
 router.post("/", async (req, res) => {
     const { id, password } = req.body;
     try {
