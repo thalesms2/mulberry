@@ -108,8 +108,8 @@ router.put("/", async (req, res) => {
     }
 });
 
-router.delete("/", async (req, res) => {
-    const { id } = req.body;
+router.delete("/:id", async (req, res) => {
+    const id = req.params.id
     if (id) {
         const result = await prisma.users.delete({
             where: { id: Number(id) },
