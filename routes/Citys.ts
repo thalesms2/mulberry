@@ -37,7 +37,6 @@ router.post("/", async (req, res) => {
                 Number(req.cookies.userId)
             )
         }
-        
         res.json(result);
     } else {
         res.sendStatus(204);

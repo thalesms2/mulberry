@@ -6,17 +6,19 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { id } = req.body;
-    if (id) {
+    const brands = await prisma.brands.findMany();
+    res.json(brands);
+});
+
+router.get("/:id", async(req, res) => {
+    const id = req.params.id
+    if(id) {
         const brand = await prisma.brands.findUnique({
             where: { id: Number(id) },
-        });
-        res.json(brand);
-    } else {
-        const brands = await prisma.brands.findMany();
-        res.json(brands);
+        })
+        res.json(brand)
     }
-});
+})
 
 router.post("/", async (req, res) => {
     const { description } = req.body;

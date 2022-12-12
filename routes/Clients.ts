@@ -1,20 +1,24 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { id } = req.body;
+    const result = await prisma.clients.findMany();
+    res.json(result);
+});
+
+router.get("/:id", async (req, res) => {
+    const id = req.params.id;
     if (id) {
         const result = await prisma.clients.findUnique({
             where: { id: Number(id) },
         });
         res.json(result);
-    } else {
-        const result = await prisma.clients.findMany();
-        res.json(result);
     }
+    res.sendStatus(404)
 });
 
 router.post("/", async (req, res) => {
@@ -30,7 +34,7 @@ router.post("/", async (req, res) => {
         birth &&
         priceTable
     ) {
-        const result = await prisma.clients.create({
+        const client = await prisma.clients.create({
             data: {
                 name: String(name),
                 cpf: String(cpf),
@@ -42,6 +46,14 @@ router.post("/", async (req, res) => {
                 priceTable: Number(priceTable),
             },
         });
+        const result = {
+            client: client,
+            log: await generateLog(
+                "CREATE",
+                `CLIENT ${client.id} - ${client.name} CREATED`,
+                Number(req.cookies.userId)
+            )
+        }
         res.json(result);
     } else {
         res.sendStatus(204);

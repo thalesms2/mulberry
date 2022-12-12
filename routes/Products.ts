@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -15,6 +16,20 @@ router.get("/:id", async (req, res) => {
         where: {
             id: Number(id),
         },
+        include: {
+            brand: {
+                select: {
+                    id: true,
+                    description: true,
+                }
+            },
+            group: {
+                select: {
+                    id: true,
+                    description: true
+                }
+            },
+        }
     });
     res.json(product);
 });
@@ -22,7 +37,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     const { description, measurement, brandId, groupId, cost, profit, price } =
         req.body;
-    const result = await prisma.products.create({
+    const product = await prisma.products.create({
         data: {
             description: String(description),
             measurement: String(measurement),
@@ -37,6 +52,14 @@ router.post("/", async (req, res) => {
             }
         },
     });
+    const result = {
+        product: product,
+        log: await generateLog(
+            "CREATE",
+            `PRODUCT ${product.id} - ${product.description} | Measurement: ${product.measurement} | Cost: ${product.cost} | Profit: ${product.profit} | Price: ${product.price}`,
+            Number(req.cookies.userId)
+        ),
+    }
     res.json(result);
 });
 
@@ -51,7 +74,12 @@ router.put("/", async (req, res) => {
         profit,
         price,
     } = req.body;
-    const result = await prisma.products.update({
+    const oldProduct = await prisma.products.findUnique({
+        where: {
+            id: Number(id),
+        },
+    })
+    const product = await prisma.products.update({
         where: {
             id: Number(id),
         },
@@ -69,16 +97,32 @@ router.put("/", async (req, res) => {
             }
         },
     });
+    const result = {
+        product: product,
+        log: await generateLog(
+            "EDIT",
+            `PRODUCT ${product.id} EDITED Description ${oldProduct.description} | Measurement: ${oldProduct.measurement} | Cost: ${oldProduct.cost} | Profit: ${oldProduct.profit} | Price: ${oldProduct.price} || New Description ${product.description} | New Measurement: ${product.measurement} | New Cost: ${product.cost} | New Profit: ${product.profit} | New Price: ${product.price}`,
+            Number(req.cookies.userId)
+        ),
+    }
     res.json(result);
 });
 
-router.delete("/", async (req, res) => {
-    const { id } = req.query;
-    const result = await prisma.products.delete({
+router.delete("/:id", async (req, res) => {
+    const id = req.params.id;
+    const product = await prisma.products.delete({
         where: {
             id: Number(id),
         },
     });
+    const result = {
+        product: product,
+        log: await generateLog(
+            "DELETE",
+            `PRODUCT ${product.id} - ${product.description} DELETED`,
+            Number(req.cookies.userId)
+        )
+    }
     res.json(result);
 });
 
