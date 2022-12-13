@@ -21,12 +21,12 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const {description, initials, userId } = req.body;
+    const { description, initials, userId } = req.body;
     if(description && userId) {
         const measurements = await prisma.measurements.create({
             data: {
                 description: String(description),
-                initials: initials
+                initials: String(initials),
             },
         });
         const result = {
