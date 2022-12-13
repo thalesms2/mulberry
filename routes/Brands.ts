@@ -26,6 +26,7 @@ router.post("/", async (req, res) => {
         const brand = await prisma.brands.create({
             data: { description: String(description) },
         });
+        console.log(brand)
         const result = {
             brand: brand,
             log: await generateLog(
