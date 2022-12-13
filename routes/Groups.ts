@@ -1,5 +1,6 @@
 import express from "express";
 import { PrismaClient } from "@prisma/client";
+import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
 const prisma = new PrismaClient();
@@ -21,12 +22,24 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const { description } = req.body;
-    const result = await prisma.groups.create({
-        data: {
-            description: String(description),
-        },
-    });
-    res.json(result);
+    if(description) {
+        const group = await prisma.groups.create({
+            data: {
+                description: String(description),
+            },
+        });
+        const result = {
+            group: group,
+            log: await generateLog(
+                "CREATE",
+                `GROUP ${group.id} - ${group.description} CREATED`,
+                Number(req.cookies.userId)
+            )
+        }
+        res.json(result);
+    } else {
+        res.sendStatus(204)
+    }
 });
 
 router.put("/", async (req, res) => {
