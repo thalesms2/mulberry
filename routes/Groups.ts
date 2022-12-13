@@ -21,8 +21,8 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { description } = req.body;
-    if(description) {
+    const { description, userId } = req.body;
+    if(description && userId) {
         const group = await prisma.groups.create({
             data: {
                 description: String(description),
@@ -33,7 +33,7 @@ router.post("/", async (req, res) => {
             log: await generateLog(
                 "CREATE",
                 `GROUP ${group.id} - ${group.description} CREATED`,
-                Number(req.cookies.userId)
+                Number(userId)
             )
         }
         res.json(result);

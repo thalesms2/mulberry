@@ -21,8 +21,8 @@ router.get("/:id", async(req, res) => {
 })
 
 router.post("/", async (req, res) => {
-    const { description } = req.body;
-    if (description) {
+    const { description, userId } = req.body;
+    if (description && userId) {
         const brand = await prisma.brands.create({
             data: { description: String(description) },
         });
@@ -31,7 +31,7 @@ router.post("/", async (req, res) => {
             log: await generateLog(
                 "CREATE",
                 `BRAND ${brand.id} - ${brand.description} CREATED`,
-                Number(req.cookies.userId)
+                Number(userId)
             ),
         };
         res.json(result);
