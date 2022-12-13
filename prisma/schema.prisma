@@ -132,7 +132,7 @@ model Clients {
 }
 
 model Sells {
-  notaNumber Int      @unique
+  noteNumber Int      @unique
   emission   DateTime
   sellerId   Int
   clientId   Int
@@ -149,12 +149,12 @@ model Sells {
 
 model Items {
   id           Int      @id @default(autoincrement())
-  notaNumber   Int
+  noteNumber   Int
   productId    Int
   unitaryPrice Decimal
   discount     Decimal
   total        Decimal
-  Sell         Sells    @relation(fields: [notaNumber], references: [notaNumber])
+  Sell         Sells    @relation(fields: [noteNumber], references: [noteNumber])
   Product      Products @relation(fields: [productId], references: [id])
 
   @@map("items")
@@ -165,4 +165,12 @@ model Company {
   name String
 
   @@map("company")
+}
+
+model Measurements {
+  id          Int    @id @default(autoincrement())
+  description String
+  initials    String
+
+  @@map("measurements")
 }

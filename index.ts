@@ -16,6 +16,7 @@ import sell from "./routes/Sells";
 import state from "./routes/States";
 import transaction from "./routes/Transactions";
 import user from "./routes/Users";
+import measurement from "./routes/Measurements";
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use("/client", client);
 app.use("/company", company);
 app.use("/group", group);
 app.use("/inventory", inventory);
+app.use("/measurement", measurement);
 app.use("/item", item);
 app.use("/log", log);
 app.use("/product", product);
