@@ -84,4 +84,9 @@ router.delete("/", async (req, res) => {
     }
 });
 
+router.delete("/all", async (req, res) => {
+    const result = await prisma.brands.deleteMany({});
+    res.json(result);
+});
+
 export default router;
