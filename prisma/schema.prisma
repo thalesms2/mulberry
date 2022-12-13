@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,7 +12,7 @@ model Brands {
   description String
   Products    Products[]
 
-  @@map(name: "brands")
+  @@map("brands")
 }
 
 model Groups {
@@ -23,23 +20,23 @@ model Groups {
   description String
   Products    Products[]
 
-  @@map(name: "groups")
+  @@map("groups")
 }
 
 model Products {
   id           Int            @id @default(autoincrement())
   description  String
   measurement  String
-  brand        Brands[]
-  group        Groups[]
   cost         Decimal
   profit       Decimal
   price        Decimal
-  Transactions Transactions[]
   Inventory    Inventory[]
   Items        Items[]
+  Transactions Transactions[]
+  brand        Brands[]
+  group        Groups[]
 
-  @@map(name: "products")
+  @@map("products")
 }
 
 model Transactions {
@@ -47,25 +44,25 @@ model Transactions {
   type        String
   transaction String
   productId   Int
-  Product     Products @relation(fields: [productId], references: [id])
   quantity    Decimal
   cost        Decimal
   price       Decimal
   userId      Int
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  Product     Products @relation(fields: [productId], references: [id])
   User        Users    @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now()) @map(name: "created_at")
-  updatedAt   DateTime @updatedAt @map(name: "updated_at")
 
-  @@map(name: "transactions")
+  @@map("transactions")
 }
 
 model Inventory {
   id        Int      @id @default(autoincrement())
   productId Int
-  Product   Products @relation(fields: [productId], references: [id])
   quantity  Decimal
+  Product   Products @relation(fields: [productId], references: [id])
 
-  @@map(name: "inventory")
+  @@map("inventory")
 }
 
 model Users {
@@ -75,7 +72,7 @@ model Users {
   Logs         Logs[]
   Transactions Transactions[]
 
-  @@map(name: "users")
+  @@map("users")
 }
 
 model Logs {
@@ -83,10 +80,10 @@ model Logs {
   type        String
   description String
   userId      Int
+  createdAt   DateTime @default(now()) @map("created_at")
   User        Users    @relation(fields: [userId], references: [id])
-  createdAt   DateTime @default(now()) @map(name: "created_at")
 
-  @@map(name: "logs")
+  @@map("logs")
 }
 
 model States {
@@ -94,17 +91,17 @@ model States {
   name  String
   Citys Citys[]
 
-  @@map(name: "states")
+  @@map("states")
 }
 
 model Citys {
   code       Int       @id @default(autoincrement())
   name       String
-  Clients    Clients[]
-  state      States    @relation(fields: [statesCode], references: [code])
   statesCode String
+  state      States    @relation(fields: [statesCode], references: [code])
+  Clients    Clients[]
 
-  @@map(name: "citys")
+  @@map("citys")
 }
 
 model Sellers {
@@ -113,7 +110,7 @@ model Sellers {
   comission Decimal
   Sells     Sells[]
 
-  @@map(name: "sellers")
+  @@map("sellers")
 }
 
 model Clients {
@@ -121,51 +118,51 @@ model Clients {
   name         String
   cpf          String
   cityId       Int
-  City         Citys    @relation(fields: [cityId], references: [code])
   adress       String
   neighborhood String
   cep          String
   birth        DateTime
-  createdAt    DateTime @default(now()) @map(name: "created_at")
-  updatedAt    DateTime @updatedAt @map(name: "updated_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
   priceTable   Int
+  City         Citys    @relation(fields: [cityId], references: [code])
   Sells        Sells[]
 
-  @@map(name: "clients")
+  @@map("clients")
 }
 
 model Sells {
   notaNumber Int      @unique
   emission   DateTime
   sellerId   Int
-  Seller     Sellers  @relation(fields: [sellerId], references: [id])
   clientId   Int
-  Client     Clients  @relation(fields: [clientId], references: [id])
   priceTable Int
   quantity   Int
   discont    Decimal
   total      Decimal
+  Client     Clients  @relation(fields: [clientId], references: [id])
+  Seller     Sellers  @relation(fields: [sellerId], references: [id])
   Items      Items[]
 
-  @@map(name: "sells")
+  @@map("sells")
 }
 
 model Items {
   id           Int      @id @default(autoincrement())
   notaNumber   Int
-  Sell         Sells    @relation(fields: [notaNumber], references: [notaNumber])
   productId    Int
-  Product      Products @relation(fields: [productId], references: [id])
   unitaryPrice Decimal
   discount     Decimal
   total        Decimal
+  Sell         Sells    @relation(fields: [notaNumber], references: [notaNumber])
+  Product      Products @relation(fields: [productId], references: [id])
 
-  @@map(name: "items")
+  @@map("items")
 }
 
 model Company {
   id   Int    @id @default(autoincrement())
   name String
 
-  @@map(name: "company")
+  @@map("company")
 }
