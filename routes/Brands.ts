@@ -60,7 +60,7 @@ router.put("/", async (req, res) => {
         };
         res.json(result);
     } else {
-        res.sendStatus(204);
+        res.sendStatus(404);
     }
 });
 
@@ -80,7 +80,7 @@ router.delete("/", async (req, res) => {
         };
         res.json(result);
     } else {
-        res.sendStatus(204);
+        res.sendStatus(404);
     }
 });
 
