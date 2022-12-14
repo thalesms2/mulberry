@@ -29,7 +29,13 @@ router.post("/", async (req, res) => {
                     description: String(description),
                     initials: String(initials),
                 },
-            });
+            })
+            // const measurements = await prisma.measurements.create({
+            //     data: {
+            //         description: String(description),
+            //         initials: String(initials),
+            //     },
+            // });
             // const result = {
             //     measurements: measurements,
             //     log: await generateLog(
