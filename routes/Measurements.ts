@@ -29,7 +29,6 @@ router.post("/", async (req, res) => {
                 initials: String(initials),
             },
         });
-        console.log(measurements)
         const result = {
             measurements: measurements,
             log: await generateLog(
@@ -43,9 +42,7 @@ router.post("/", async (req, res) => {
         res.sendStatus(204)
     }
 });
-5502093512739381
-1228
-933
+
 router.put("/", async (req, res) => {
     const { id, description, initials } = req.body;
     const result = await prisma.measurements.update({
