@@ -132,7 +132,6 @@ model Clients {
 }
 
 model Sells {
-  noteNumber Int      @unique
   emission   DateTime
   sellerId   Int
   clientId   Int
@@ -140,6 +139,7 @@ model Sells {
   quantity   Int
   discont    Decimal
   total      Decimal
+  noteNumber Int      @unique
   Client     Clients  @relation(fields: [clientId], references: [id])
   Seller     Sellers  @relation(fields: [sellerId], references: [id])
   Items      Items[]
@@ -149,11 +149,11 @@ model Sells {
 
 model Items {
   id           Int      @id @default(autoincrement())
-  noteNumber   Int
   productId    Int
   unitaryPrice Decimal
   discount     Decimal
   total        Decimal
+  noteNumber   Int
   Sell         Sells    @relation(fields: [noteNumber], references: [noteNumber])
   Product      Products @relation(fields: [productId], references: [id])
 
