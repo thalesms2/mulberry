@@ -23,6 +23,15 @@ model Groups {
   @@map("groups")
 }
 
+model Measurements {
+  id          Int    @id @default(autoincrement())
+  description String
+  initials    String
+
+  @@map("measurements")
+}
+
+
 model Products {
   id           Int            @id @default(autoincrement())
   description  String
@@ -165,12 +174,4 @@ model Company {
   name String
 
   @@map("company")
-}
-
-model Measurements {
-  id          Int    @id @default(autoincrement())
-  description String
-  initials    String
-
-  @@map("measurements")
 }
