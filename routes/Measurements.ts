@@ -30,15 +30,15 @@ router.post("/", async (req, res) => {
                     initials: String(initials),
                 },
             });
-            const result = {
-                measurements: measurements,
-                log: await generateLog(
-                    "CREATE",
-                    `MEASUREMENTS ${measurements.id} - ${measurements.description} | ${measurements.initials} CREATED`,
-                    Number(userId)
-                )
-            }
-            res.json(result);
+            // const result = {
+            //     measurements: measurements,
+            //     log: await generateLog(
+            //         "CREATE",
+            //         `MEASUREMENTS ${measurements.id} - ${measurements.description} | ${measurements.initials} CREATED`,
+            //         Number(userId)
+            //     )
+            // }
+            res.json(measurements);
         } catch (err) {
             res.json(err)
         }
