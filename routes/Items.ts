@@ -5,15 +5,15 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { id, notaNumber } = req.body;
+    const { id, noteNumber } = req.body;
     if (id) {
         const result = await prisma.items.findUnique({
             where: { id: Number(id) },
         });
         res.json(result);
-    } else if (notaNumber) {
+    } else if (noteNumber) {
         const result = await prisma.items.findMany({
-            where: { notaNumber: Number(notaNumber) },
+            where: { noteNumber: Number(noteNumber) },
         });
         res.json(result);
     } else {
@@ -23,11 +23,11 @@ router.get("/", async (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { notaNumber, productId, unitaryPrice, discount, total } = req.body;
-    if (notaNumber && productId && unitaryPrice && discount && total) {
+    const { noteNumber, productId, unitaryPrice, discount, total } = req.body;
+    if (noteNumber && productId && unitaryPrice && discount && total) {
         const result = await prisma.items.create({
             data: {
-                notaNumber: Number(notaNumber),
+                noteNumber: Number(noteNumber),
                 productId: Number(productId),
                 unitaryPrice: Number(unitaryPrice),
                 discount: Number(discount),
@@ -40,7 +40,7 @@ router.post("/", async (req, res) => {
     }
 });
 router.put("/", async (req, res) => {
-    const { id, notaNumber, productId, unitaryPrice, discount, total } = req.body;
+    const { id, noteNumber, productId, unitaryPrice, discount, total } = req.body;
     if (id) {
         const item = await prisma.items.findUnique({
             where: { id: Number(id) }
@@ -48,7 +48,7 @@ router.put("/", async (req, res) => {
         const result = await prisma.items.update({
             where: { id: Number(id) },
             data: {
-                notaNumber: notaNumber ? Number(notaNumber) : item.notaNumber,
+                noteNumber: noteNumber ? Number(noteNumber) : item.noteNumber,
                 productId: productId ? Number(productId) : item.productId,
                 unitaryPrice: unitaryPrice ? Number(unitaryPrice) : item.unitaryPrice,
                 discount: discount ? Number(discount) : item.discount,

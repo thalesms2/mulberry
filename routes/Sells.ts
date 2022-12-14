@@ -5,10 +5,10 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const { notaNumber } = req.body;
-    if (notaNumber) {
+    const { noteNumber } = req.body;
+    if (noteNumber) {
         const result = await prisma.sells.findUnique({
-            where: { notaNumber: Number(notaNumber) },
+            where: { noteNumber: Number(noteNumber) },
         });
         res.json(result);
     } else {
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const {
-        notaNumber,
+        noteNumber,
         emission,
         sellerId,
         clientId,
@@ -28,10 +28,10 @@ router.post("/", async (req, res) => {
         discont,
         total,
     } = req.body;
-    if (notaNumber && sellerId && clientId) {
+    if (noteNumber && sellerId && clientId) {
         const result = await prisma.sells.create({
             data: {
-                notaNumber: Number(notaNumber),
+                noteNumber: Number(noteNumber),
                 emission: emission ? emission : "Ainda não emitida",
                 sellerId: Number(sellerId),
                 clientId: Number(clientId),
@@ -49,7 +49,7 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
     const {
-        notaNumber,
+        noteNumber,
         emission,
         sellerId,
         clientId,
@@ -58,12 +58,12 @@ router.put("/", async (req, res) => {
         discont,
         total,
     } = req.body;
-    if (notaNumber) {
+    if (noteNumber) {
         const sell = await prisma.sells.findUnique({
-            where: { notaNumber: Number(notaNumber) }
+            where: { noteNumber: Number(noteNumber) }
         })
         const result = await prisma.sells.update({
-            where: { notaNumber: Number(notaNumber) },
+            where: { noteNumber: Number(noteNumber) },
             data: {
                 emission: emission ? emission : sell.emission,
                 sellerId: sellerId ? Number(sellerId) : sell.sellerId,
@@ -81,10 +81,10 @@ router.put("/", async (req, res) => {
 });
 
 router.delete("/", async (req, res) => {
-    const { notaNumber } = req.body;
-    if (notaNumber) {
+    const { noteNumber } = req.body;
+    if (noteNumber) {
         const result = await prisma.sells.delete({
-            where: { notaNumber: Number(notaNumber) },
+            where: { noteNumber: Number(noteNumber) },
         });
         res.json(result);
     } else {
