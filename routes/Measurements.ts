@@ -23,23 +23,25 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     const { description, initials, userId } = req.body;
     if(description && userId) {
-        const measurements = await prisma.measurements.create({
-            data: {
-                description: String(description),
-                initials: String(initials),
-            },
-        });
-        const result = {
-            measurements: measurements,
-            log: await generateLog(
-                "CREATE",
-                `MEASUREMENTS ${measurements.id} - ${measurements.description} | ${measurements.initials} CREATED`,
-                Number(userId)
-            )
+        try {
+            const measurements = await prisma.measurements.create({
+                data: {
+                    description: String(description),
+                    initials: String(initials),
+                },
+            });
+            const result = {
+                measurements: measurements,
+                log: await generateLog(
+                    "CREATE",
+                    `MEASUREMENTS ${measurements.id} - ${measurements.description} | ${measurements.initials} CREATED`,
+                    Number(userId)
+                )
+            }
+            res.json(result);
+        } catch (err) {
+            res.json(err)
         }
-        res.json(result);
-    } else {
-        res.sendStatus(204)
     }
 });
 
