@@ -31,7 +31,6 @@ model Measurements {
   @@map("measurements")
 }
 
-
 model Products {
   id           Int            @id @default(autoincrement())
   description  String
@@ -57,8 +56,6 @@ model Transactions {
   cost        Decimal
   price       Decimal
   userId      Int
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
   Product     Products @relation(fields: [productId], references: [id])
   User        Users    @relation(fields: [userId], references: [id])
 
@@ -131,8 +128,6 @@ model Clients {
   neighborhood String
   cep          String
   birth        DateTime
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
   priceTable   Int
   City         Citys    @relation(fields: [cityId], references: [code])
   Sells        Sells[]
@@ -164,6 +159,8 @@ model Items {
   total        Decimal
   noteNumber   Int
   Sell         Sells    @relation(fields: [noteNumber], references: [noteNumber])
+  entryNumber  Int
+  Entry        Entry    @relation(fields: [entryNumber], references: [id])
   Product      Products @relation(fields: [productId], references: [id])
 
   @@map("items")
@@ -174,4 +171,13 @@ model Company {
   name String
 
   @@map("company")
+}
+
+model Entry {
+  id       Int     @id
+  provider String
+  cost     Decimal
+  Items    Items[]
+
+  @@map("entry")
 }
