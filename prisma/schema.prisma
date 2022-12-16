@@ -124,9 +124,11 @@ model Clients {
   name         String
   cpf          String
   cityId       Int
-  adress       String
+  street       String
   neighborhood String
+  adressNumber String
   cep          String
+  complement   String
   birth        DateTime
   priceTable   Int
   City         Citys    @relation(fields: [cityId], references: [code])

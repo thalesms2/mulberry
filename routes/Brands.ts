@@ -51,9 +51,9 @@ router.post("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
-    const { id, description } = req.body;
+    const { id, description, userId } = req.body;
     try {
-        if (id && description) {
+        if (id && description && userId) {
             const oldBrand = await prisma.brands.findUnique({
                 where: { id: Number(id) },
             });
@@ -65,8 +65,8 @@ router.put("/", async (req, res) => {
                 brand: brand,
                 log: await generateLog(
                     "EDIT",
-                    `BRAND ${brand.id} EDITED - DESCRIPTION ${oldBrand.description} NEW DESCRIPTION ${brand.description} `,
-                    Number(req.cookies.userId)
+                    `BRAND ${brand.id} EDITED - DESCRIPTION ${oldBrand.description} NEW DESCRIPTION ${brand.description}`,
+                    Number(userId)
                 ),
             };
             res.json(result);
