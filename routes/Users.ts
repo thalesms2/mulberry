@@ -6,12 +6,16 @@ const router = express.Router();
 const prisma = new PrismaClient();
 
 router.get("/", async (req, res) => {
-    const users = await prisma.users.findMany({
-        orderBy: {
-            id: 'asc'
-        }
-    })
-    res.json(users)
+    try {
+        const users = await prisma.users.findMany({
+            orderBy: {
+                id: 'asc'
+            }
+        })
+        res.json(users)
+    } catch (err) {
+        res.json(`Error: ${err}`)
+    }
 })
 
 router.post("/", async (req, res) => {
