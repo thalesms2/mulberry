@@ -10,7 +10,7 @@ router.get("/", async (req, res) => {
         const brands = await prisma.brands.findMany();
         res.json(brands);
     } catch (err) {
-        res.json(err)
+        res.json(`Error: ${err}`)
     }
 });
 
