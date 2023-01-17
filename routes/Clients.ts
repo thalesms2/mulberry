@@ -5,16 +5,23 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllClients);
+router.get("/:id", getClientPerId);
+router.post("/", createNewClient);
+router.put("/", editClientPerId);
+router.delete("/", deleteClientPerId);
+router.delete("/all", deleteAllClients);
+
+async function getAllClients(req, res) {
     try {
         const result = await prisma.clients.findMany();
         res.json(result);
     } catch (err) {
         res.json(err);
     }
-});
+}
 
-router.get("/:id", async (req, res) => {
+async function getClientPerId(req, res) {
     const id = req.params.id;
     try {
         if (id) {
@@ -28,9 +35,9 @@ router.get("/:id", async (req, res) => {
     } catch (err) {
         res.json(err);
     }
-});
+}
 
-router.post("/", async (req, res) => {
+async function createNewClient (req, res) {
     const { name, cpf, cityId, adress, neighborhood, cep, birth, priceTable, userId } =
         req.body;
     try {
@@ -72,9 +79,9 @@ router.post("/", async (req, res) => {
     } catch (err) {
         res.json(err);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editClientPerId(req, res) {
     const {
         id,
         name,
@@ -132,9 +139,9 @@ router.put("/", async (req, res) => {
         res.json(err);
     }
     
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteClientPerId(req, res) {
     const { id } = req.body;
     try {
         if (id) {
@@ -148,15 +155,15 @@ router.delete("/", async (req, res) => {
     } catch (err) {
         res.json(err);
     }
-});
+}
 
-router.delete("/all", async (req, res) => {
+async function deleteAllClients (req, res) {
     try {
         const result = await prisma.clients.deleteMany({});
         res.json(result);
     } catch (err) {
         res.json(err);
     }
-});
+}
 
 export default router;

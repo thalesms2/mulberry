@@ -5,12 +5,18 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllProducts);
+router.get("/:id", getProductPerId);
+router.post("/", createNewProduct);
+router.put("/", editProductPerId);
+router.delete("/:id", deleteProductPerId);
+
+async function getAllProducts (req, res) {
     const products = await prisma.products.findMany();
     res.json(products);
-});
+}
 
-router.get("/:id", async (req, res) => {
+async function getProductPerId (req, res) {
     const id = req.params.id;
     const product = await prisma.products.findUnique({
         where: {
@@ -32,9 +38,9 @@ router.get("/:id", async (req, res) => {
         }
     });
     res.json(product);
-});
+}
 
-router.post("/", async (req, res) => {
+async function createNewProduct (req, res) {
     const { description, measurement, brandId, groupId, cost, profit, price } =
         req.body;
     const product = await prisma.products.create({
@@ -61,9 +67,9 @@ router.post("/", async (req, res) => {
         ),
     }
     res.json(result);
-});
+}
 
-router.put("/", async (req, res) => {
+async function editProductPerId (req, res) {
     const {
         id,
         description,
@@ -106,9 +112,9 @@ router.put("/", async (req, res) => {
         ),
     }
     res.json(result);
-});
+}
 
-router.delete("/:id", async (req, res) => {
+async function deleteProductPerId (req, res) {
     const id = req.params.id;
     const product = await prisma.products.delete({
         where: {
@@ -124,6 +130,6 @@ router.delete("/:id", async (req, res) => {
         )
     }
     res.json(result);
-});
+}
 
 export default router;

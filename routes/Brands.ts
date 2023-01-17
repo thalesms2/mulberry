@@ -5,28 +5,35 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllBrands);
+router.get("/:id", getBrandPerId);
+router.post("/", createNewBrand);
+router.put("/", editBrandPerId);
+router.delete("/", deleteBrandPerId);
+router.delete("/all", deleteAllBrands);
+
+async function getAllBrands(req, res) {
     try {
         const brands = await prisma.brands.findMany();
         res.json(brands);
     } catch (err) {
-        res.json(`Error: ${err}`)
+        res.json(`Error: ${err}`);
     }
-});
+}
 
-router.get("/:id", async(req, res) => {
-    const id = req.params.id
-    try{
+async function getBrandPerId(req, res) {
+    const id = req.params.id;
+    try {
         const brand = await prisma.brands.findUnique({
             where: { id: Number(id) },
-        })
-        res.json(brand)
+        });
+        res.json(brand);
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-})
+}
 
-router.post("/", async (req, res) => {
+async function createNewBrand(req, res) {
     const { description, userId } = req.body;
     try {
         if (description && userId) {
@@ -43,14 +50,14 @@ router.post("/", async (req, res) => {
             };
             res.json(result);
         } else {
-            res.sendStatus(400)
+            res.sendStatus(400);
         }
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editBrandPerId(req, res) {
     const { id, description, userId } = req.body;
     try {
         if (id && description && userId) {
@@ -74,11 +81,11 @@ router.put("/", async (req, res) => {
             res.sendStatus(400);
         }
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteBrandPerId(req, res) {
     const { id } = req.body;
     try {
         if (id) {
@@ -98,17 +105,17 @@ router.delete("/", async (req, res) => {
             res.sendStatus(400);
         }
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-});
+}
 
-router.delete("/all", async (req, res) => {
+async function deleteAllBrands(req, res) {
     try {
         const result = await prisma.brands.deleteMany({});
         res.json(result);
     } catch (err) {
-        res.json(err)
+        res.json(err);
     }
-});
+}
 
 export default router;

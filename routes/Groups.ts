@@ -5,12 +5,19 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllGroups);
+router.get("/:id", getGroupPerId);
+router.post("/", createNewGroup);
+router.put("/", editGroupPerId);
+router.delete("/", deleteGroupPerId);
+router.delete("/all", deleteAllGroups);
+
+async function getAllGroups(req, res) {
     const groups = await prisma.groups.findMany();
     res.json(groups);
-});
+}
 
-router.get("/:id", async (req, res) => {
+async function getGroupPerId(req, res) {
     const id = req.params.id;
     const group = await prisma.groups.findUnique({
         where: {
@@ -18,9 +25,9 @@ router.get("/:id", async (req, res) => {
         },
     });
     res.json(group)
-});
+}
 
-router.post("/", async (req, res) => {
+async function createNewGroup (req, res) {
     const { description, userId } = req.body;
     if(description && userId) {
         const group = await prisma.groups.create({
@@ -40,9 +47,9 @@ router.post("/", async (req, res) => {
     } else {
         res.sendStatus(204)
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editGroupPerId(req, res) {
     const { id, description } = req.body;
     const result = await prisma.groups.update({
         where: {
@@ -53,9 +60,9 @@ router.put("/", async (req, res) => {
         },
     });
     res.json(result);
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteGroupPerId(req, res) {
     const { id } = req.query;
     const result = await prisma.groups.delete({
         where: {
@@ -63,11 +70,11 @@ router.delete("/", async (req, res) => {
         },
     });
     res.json(result);
-});
+}
 
-router.delete("/all", async (req, res) => {
+async function deleteAllGroups(req, res) {
     const result = await prisma.groups.deleteMany({});
     res.json(result);
-});
+}
 
 export default router;

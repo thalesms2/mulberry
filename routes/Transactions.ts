@@ -4,20 +4,23 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
-    const { id } = req.body;
-    if (id) {
-        const result = await prisma.transactions.findUnique({
-            where: { id: Number(id) },
-        });
-        res.json(result);
-    } else {
-        const result = await prisma.transactions.findMany();
-        res.json(result);
-    }
-});
+router.get("/", getAllTransactions);
+router.get("/:id", getTransactionsPerId);
+router.post("/", createNewTransaction);
+router.put("/", editTransactionPerId);
+router.delete("/", deleteTransactionPerId);
+router.delete("/all", deleteAllTransactions);
 
-router.post("/", async (req, res) => {
+async function getAllTransactions(req, res) {
+    const result = await prisma.transactions.findMany();
+    res.json(result);
+}
+
+async function getTransactionsPerId(req, res) {
+    // TODO getTransactionsPerId
+}
+
+async function createNewTransaction(req, res) {
     const { type, transaction, productId, quantity, cost, price, userId } =
         req.body;
     if (
@@ -44,9 +47,9 @@ router.post("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editTransactionPerId(req, res) {
     const { id, type, transaction, productId, quantity, cost, price, userId } =
         req.body;
     if (id) {
@@ -69,9 +72,13 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteAllTransactions(req, res) {
+    // TODO deleteAllTransactions
+}
+
+async function deleteTransactionPerId(req, res) {
     const { id } = req.body;
     if (id) {
         const result = await prisma.transactions.delete({
@@ -81,6 +88,6 @@ router.delete("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
 export default router;

@@ -5,17 +5,23 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllCitys);
+router.get("/:code", getCityPerCode);
+router.post("/", createNewCity);
+router.put("/", editCityPerCode);
+router.delete("/", deleteCityPerId);
+router.delete("/all", deleteAllCitys);
+
+async function getAllCitys(req, res) {
     try {
         const result = await prisma.citys.findMany({});
         res.json(result);
     } catch (err) {
         res.json(err)
     }
+}
 
-});
-
-router.get("/:code", async (req, res) => {
+async function getCityPerCode (req, res) {
     const code = req.params.code;
     try {
         if (code) {
@@ -29,9 +35,9 @@ router.get("/:code", async (req, res) => {
     } catch (err) {
         res.json(err)
     }
-});
+}
 
-router.post("/", async (req, res) => {
+async function createNewCity(req, res) {
     const { name, codeState, userId } = req.body;
     try {
         if (name && codeState && userId) {
@@ -58,9 +64,9 @@ router.post("/", async (req, res) => {
     } catch (err) {
         res.json(err)
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editCityPerCode(req, res) {
     const { code, name, codeState, userId } = req.body;
     try {
         if (code && name && codeState && userId) {
@@ -91,9 +97,9 @@ router.put("/", async (req, res) => {
     } catch (err) {
         res.json(err)
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteCityPerId(req, res) {
     const { code } = req.body;
     try {
         if (code) {
@@ -109,15 +115,14 @@ router.delete("/", async (req, res) => {
     } catch (err) {
         res.json(err)
     }
-});
-
-router.delete("/all", async (req, res) => {
+}
+async function deleteAllCitys(req, res) {
     try {
         const result = await prisma.citys.deleteMany({});
         res.json(result)
     } catch (err) {
         res.json(err)
     }
-});
+}
 
 export default router;

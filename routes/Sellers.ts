@@ -4,35 +4,59 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
-    const { id } = req.body;
-    if (id) {
-        const result = await prisma.sellers.findUnique({
-            where: { id: Number(id) },
-        });
-        res.json(result);
-    } else {
+router.get("/", getAllSellers);
+router.get("/:id", getSellerPerId);
+router.post("/", createNewSeller);
+router.put("/", editSellerPerId);
+router.delete("/", deleteSellerPerId);
+
+async function getAllSellers (req, res) {
+    try {
         const result = await prisma.sellers.findMany();
         res.json(result);
+    } catch(err) {
+        res.json(`Error: ${err}`)
     }
-});
+}
 
-router.post("/", async (req, res) => {
-    const { name, comission } = req.body;
-    if (name && comission) {
-        const result = await prisma.sellers.create({
-            data: {
-                name: String(name),
-                comission: Number(comission),
-            },
-        });
-        res.json(result);
-    } else {
-        res.sendStatus(204);
+async function getSellerPerId (req, res) {
+    const id = req.params.id;
+    try {
+        if (id) {
+            const result = await prisma.sellers.findUnique({
+                where: { id: Number(id) },
+            });
+            res.json(result);
+        } else {
+            res.json(`Error: ID is missing`)
+        }
+    } catch(err) {
+        res.json(`Error: ${err}`)
     }
-});
+    
+}
 
-router.put("/", async (req, res) => {
+async function  createNewSeller(req, res) {
+    const { id, name, comission } = req.body;
+    try {
+        if (id && name && comission) {
+            const result = await prisma.sellers.create({
+                data: {
+                    name: String(name),
+                    comission: Number(comission),
+                },
+            });
+            res.json(result);
+        } else {
+            res.sendStatus(204);
+        }
+    } catch(err) {
+        res.json(`Error: ${err}`)
+    }
+    
+}
+
+async function editSellerPerId(req, res) {
     const { id, name, comission } = req.body;
     if (id) {
         const seller = await prisma.sellers.findUnique({
@@ -49,9 +73,9 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteSellerPerId(req, res) {
     const { id } = req.body;
     if (id) {
         const result = await prisma.sellers.delete({
@@ -61,6 +85,6 @@ router.delete("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
 export default router;

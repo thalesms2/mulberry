@@ -5,12 +5,18 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllMeasurements);
+router.get("/:id", getMeasurementPerId);
+router.post("/", createNewMeasurements);
+router.put("/", editMeasurementsPerId);
+router.delete("/", deleteMeasurementPerId);
+
+async function getAllMeasurements (req, res) {
     const measurements = await prisma.measurements.findMany();
     res.json(measurements);
-});
+}
 
-router.get("/:id", async (req, res) => {
+async function getMeasurementPerId (req, res) {
     const id = req.params.id;
     const measurements = await prisma.measurements.findUnique({
         where: {
@@ -18,9 +24,9 @@ router.get("/:id", async (req, res) => {
         },
     });
     res.json(measurements)
-});
+}
 
-router.post("/", async (req, res) => {
+async function createNewMeasurements (req, res) {
     const { description, initials, userId } = req.body;
     if(description && userId) {
         try {
@@ -43,9 +49,9 @@ router.post("/", async (req, res) => {
             res.json(err)
         }
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editMeasurementsPerId(req, res) {
     const { id, description, initials } = req.body;
     const result = await prisma.measurements.update({
         where: {
@@ -56,9 +62,9 @@ router.put("/", async (req, res) => {
         },
     });
     res.json(result);
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteMeasurementPerId (req, res) {
     const { id } = req.query;
     const result = await prisma.measurements.delete({
         where: {
@@ -66,6 +72,6 @@ router.delete("/", async (req, res) => {
         },
     });
     res.json(result);
-});
+}
 
 export default router;

@@ -4,7 +4,13 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllStates);
+router.get("/:id", getStatePerCode);
+router.post("/", createNewState);
+router.put("/", editStatePerCode);
+router.delete("/", deleteStatePerCode);
+
+async function getAllStates(req, res) {
     const { code } = req.body;
     if (code) {
         const result = await prisma.states.findUnique({
@@ -15,9 +21,13 @@ router.get("/", async (req, res) => {
         const result = await prisma.states.findMany();
         res.json(result);
     }
-});
+}
 
-router.post("/", async (req, res) => {
+async function getStatePerCode(req, res) {
+    // TODO getStatePerCode
+}
+
+async function createNewState(req, res) {
     const { code, name } = req.body;
     if (code && name) {
         const result = await prisma.states.create({
@@ -30,9 +40,9 @@ router.post("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editStatePerCode(req, res) {
     const { code, name } = req.body;
     if (code && name) {
         const result = await prisma.states.update({
@@ -43,9 +53,9 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteStatePerCode(req, res) {
     const { code } = req.body;
     if (code) {
         const result = await prisma.states.delete({
@@ -55,6 +65,6 @@ router.delete("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
 export default router;

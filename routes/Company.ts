@@ -4,7 +4,12 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getCompanyPerId);
+router.post("/", createCompany);
+router.put("/", editCompanyPerId);
+router.delete("/", deleteCompanyPerId);
+
+async function getCompanyPerId(req, res) {
     const { id } = req.body;
     if (id) {
         const result = await prisma.company.findUnique({
@@ -15,9 +20,9 @@ router.get("/", async (req, res) => {
         const result = await prisma.company.findMany();
         res.json(result);
     }
-});
+}
 
-router.post("/", async (req, res) => {
+async function createCompany (req, res) {
     const { name } = req.body;
     if (name) {
         const result = await prisma.company.create({
@@ -27,9 +32,9 @@ router.post("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editCompanyPerId (req, res) {
     const { id, name } = req.body;
     if (id && name) {
         const result = await prisma.company.update({
@@ -42,9 +47,9 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteCompanyPerId(req, res) {
     const { id } = req.body;
     if (id) {
         const result = await prisma.company.delete({
@@ -54,6 +59,6 @@ router.delete("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
 export default router;

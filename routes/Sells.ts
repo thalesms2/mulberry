@@ -4,20 +4,22 @@ import { PrismaClient } from "@prisma/client";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
-    const { noteNumber } = req.body;
-    if (noteNumber) {
-        const result = await prisma.sells.findUnique({
-            where: { noteNumber: Number(noteNumber) },
-        });
-        res.json(result);
-    } else {
-        const result = await prisma.sells.findMany();
-        res.json(result);
-    }
-});
+router.get("/", getAllSells)
+router.get("/:id", getSellPerId)
+router.post("/", createNewSell);
+router.put("/", editSellPerId);
+router.delete("/", deleteSellPerId);
 
-router.post("/", async (req, res) => {
+async function getAllSells(req, res) {
+    const result = await prisma.sells.findMany();
+    res.json(result);
+}
+
+async function getSellPerId(req, res) {
+    // TODO getSellPerId
+}
+
+async function createNewSell(req, res) {
     const {
         noteNumber,
         emission,
@@ -45,9 +47,9 @@ router.post("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editSellPerId(req, res) {
     const {
         noteNumber,
         emission,
@@ -78,9 +80,9 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/", async (req, res) => {
+async function deleteSellPerId(req, res) {
     const { noteNumber } = req.body;
     if (noteNumber) {
         const result = await prisma.sells.delete({
@@ -90,6 +92,6 @@ router.delete("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
 export default router;

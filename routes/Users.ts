@@ -5,7 +5,14 @@ import generateLog from "../controllers/generateLog";
 const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get("/", async (req, res) => {
+router.get("/", getAllUsers)
+router.post("/", verifyLogin);
+router.post("/create", createNewUser);
+router.put("/", editUserPerId);
+router.delete("/:id", deleteUserPerId);
+router.delete("/all", deleteAllUsers);
+
+async function getAllUsers(req, res) {
     try {
         const users = await prisma.users.findMany({
             orderBy: {
@@ -16,9 +23,9 @@ router.get("/", async (req, res) => {
     } catch (err) {
         res.json(`Error: ${err}`)
     }
-})
+}
 
-router.post("/", async (req, res) => {
+async function verifyLogin(req, res) {
     const { id, password } = req.body;
     try {
         const user = await prisma.users.findUnique({
@@ -72,9 +79,9 @@ router.post("/", async (req, res) => {
         }
         
     }
-});
+}
 
-router.post("/create", async (req, res) => {
+async function createNewUser(req, res) {
     const { name, password } = req.body;
     if (name) {
         const create = await prisma.users.create({
@@ -91,9 +98,9 @@ router.post("/create", async (req, res) => {
     } else {
         res.sendStatus(204).json({ sucess: false });
     }
-});
+}
 
-router.put("/", async (req, res) => {
+async function editUserPerId(req, res) {
     const { id, name, password } = req.body;
     if (id) {
         const user = await prisma.users.findUnique({
@@ -110,9 +117,9 @@ router.put("/", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
 
-router.delete("/:id", async (req, res) => {
+async function deleteUserPerId(req, res) {
     const id = req.params.id
     if (id) {
         const result = await prisma.users.delete({
@@ -122,6 +129,10 @@ router.delete("/:id", async (req, res) => {
     } else {
         res.sendStatus(204);
     }
-});
+}
+
+async function deleteAllUsers(req, res) {
+    // TODO deleteAllUsers
+}
 
 export default router;

@@ -129,7 +129,6 @@ model Clients {
   adressNumber String
   cep          String
   complement   String
-  birth        DateTime
   priceTable   Int
   City         Citys    @relation(fields: [cityId], references: [code])
   Sells        Sells[]
@@ -173,6 +172,12 @@ model Company {
   name String
 
   @@map("company")
+}
+
+model Deposit {
+  id          Int    @id
+  name        String
+  description String
 }
 
 model Entry {
