@@ -77,6 +77,7 @@ model Users {
   password     String
   Logs         Logs[]
   Transactions Transactions[]
+  Task         Task[]
 
   @@map("users")
 }
@@ -120,7 +121,7 @@ model Sellers {
 }
 
 model Clients {
-  id           Int      @id @default(autoincrement())
+  id           Int     @id @default(autoincrement())
   name         String
   cpf          String
   cityId       Int
@@ -130,7 +131,7 @@ model Clients {
   cep          String
   complement   String
   priceTable   Int
-  City         Citys    @relation(fields: [cityId], references: [code])
+  City         Citys   @relation(fields: [cityId], references: [code])
   Sells        Sells[]
 
   @@map("clients")
@@ -187,4 +188,14 @@ model Entry {
   Items    Items[]
 
   @@map("entry")
+}
+
+model Task {
+  id          Int     @id
+  description String
+  status      Boolean
+  userId      Int
+  user        Users   @relation(fields: [userId], references: [id])
+
+  @@map("task")
 }
