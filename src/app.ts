@@ -24,6 +24,10 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
+app.use("/", (req, res) => {
+    res.json({ message: "Hello World!" });
+});
+
 app.use("/brand", brand);
 app.use("/city", city);
 app.use("/client", client);
@@ -40,7 +44,4 @@ app.use("/state", state);
 app.use("/transaction", transaction);
 app.use("/user", user);
 
-const port = process.env.PORT || 4000;
-app.listen(port, () =>
-    console.log(`🚀 Server ready at: http://localhost:${port}`)
-);
+export default app;
