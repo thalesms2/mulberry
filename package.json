@@ -1,11 +1,11 @@
 {
   "name": "mulberry",
   "version": "1.0.0",
-  "main": "server.ts",
+  "main": "index.ts",
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "start": "ts-node server.ts",
+    "start": "ts-node index.ts",
     "test": "jest --runInBand"
   },
   "dependencies": {
