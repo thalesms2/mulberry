@@ -24,10 +24,6 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 
-app.use("/", (req, res) => {
-    res.json({ message: "Hello World!" });
-});
-
 app.use("/brand", brand);
 app.use("/city", city);
 app.use("/client", client);
