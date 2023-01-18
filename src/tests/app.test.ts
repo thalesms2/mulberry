@@ -9,9 +9,9 @@ describe("Brand testing", () => {
     });
     test("Get brand per ID 1", () => {
         return request(app)
-            .get("/brand/1")
+            .get("/brand/28")
             .then(response => {
-                expect(response.body).toBe
+                expect(response.body).toStrictEqual({"id":28,"description":"Adsomos"})
             })
     })
 });
