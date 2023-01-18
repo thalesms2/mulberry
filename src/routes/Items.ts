@@ -28,21 +28,21 @@ async function getItemPerNoteId(req, res) {
 }
 
 async function createNewItem(req, res) {
-    const { noteNumber, productId, unitaryPrice, discount, total } = req.body;
-    if (noteNumber && productId && unitaryPrice && discount && total) {
-        const result = await prisma.items.create({
-            data: {
-                noteNumber: Number(noteNumber),
-                productId: Number(productId),
-                unitaryPrice: Number(unitaryPrice),
-                discount: Number(discount),
-                total: Number(total),
-            },
-        });
-        res.json(result);
-    } else {
-        res.sendStatus(204);
-    }
+    // const { noteNumber, productId, unitaryPrice, discount, total } = req.body;
+    // if (noteNumber && productId && unitaryPrice && discount && total) {
+    //     const result = await prisma.items.create({
+    //         data: {
+    //             noteNumber: Number(noteNumber),
+    //             productId: Number(productId),
+    //             unitaryPrice: Number(unitaryPrice),
+    //             discount: Number(discount),
+    //             total: Number(total),
+    //         },
+    //     });
+    //     res.json(result);
+    // } else {
+    //     res.sendStatus(204);
+    // }
 }
 
 async function editItemPerId(req, res) {
