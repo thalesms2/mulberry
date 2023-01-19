@@ -21,9 +21,10 @@ async function getTransactionsPerId(req, res) {
 }
 
 async function createNewTransaction(req, res) {
-    const { type, transaction, productId, quantity, cost, price, userId } =
+    const { id, type, transaction, productId, quantity, cost, price, userId } =
         req.body;
     if (
+        id &&
         type &&
         transaction &&
         productId &&
@@ -34,6 +35,7 @@ async function createNewTransaction(req, res) {
     ) {
         const result = await prisma.transactions.create({
             data: {
+                id: Number(id),
                 type: String(type),
                 transaction: String(transaction),
                 productId: Number(productId),

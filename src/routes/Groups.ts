@@ -28,10 +28,11 @@ async function getGroupPerId(req, res) {
 }
 
 async function createNewGroup (req, res) {
-    const { description, userId } = req.body;
-    if(description && userId) {
+    const { id, description, userId } = req.body;
+    if(id && description && userId) {
         const group = await prisma.groups.create({
             data: {
+                id: Number(id),
                 description: String(description),
             },
         });

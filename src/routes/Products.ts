@@ -41,10 +41,11 @@ async function getProductPerId (req, res) {
 }
 
 async function createNewProduct (req, res) {
-    const { description, measurement, brandId, groupId, cost, profit, price } =
+    const { id, description, measurement, brandId, groupId, cost, profit, price } =
         req.body;
     const product = await prisma.products.create({
         data: {
+            id: Number(id),
             description: String(description),
             measurement: String(measurement),
             cost: Number(cost),

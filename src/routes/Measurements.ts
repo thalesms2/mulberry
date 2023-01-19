@@ -27,11 +27,12 @@ async function getMeasurementPerId (req, res) {
 }
 
 async function createNewMeasurements (req, res) {
-    const { description, initials, userId } = req.body;
-    if(description && userId) {
+    const { id, description, initials, userId } = req.body;
+    if(id && description && userId) {
         try {
             const measurements = await prisma.measurements.create({
                 data: {
+                    id: Number(id),
                     description: String(description),
                     initials: String(initials),
                 },

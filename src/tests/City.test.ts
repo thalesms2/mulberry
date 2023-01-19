@@ -9,27 +9,29 @@ describe("City testing", () => {
         .send({
             code: 1000,
             name: 'Test city',
-            statesCode: 'SC',
+            codeState: 'SC',
+            userId: 1
         })
         .expect(function (res) {
+            console.log(res.body)
             res.body.city.code = 1000
             res.body.city.name = 'Test city'
             res.body.city.statesCode = 'SC'
             res.body.log.type = 'CREATED'
             res.body.log.description = "CITY 1000 - Test city - SC CREATED";
-            res.body.log.userId = "1";
+            res.body.log.userId = 1;
         })
     })
     test('Get all citys', () => {
         return request(app)
         .get('/city')
-        .expet(200)
+        .expect(200)
     })
     test('Get city per code 1000', () => {
         return request(app)
         .get('/city/1000')
         .expect(function (res) {
-            res.body.code = 1000
+            res.body.city.code = 1000
             res.body.city.name = 'Test city'
             res.body.city.statesCode = 'SC'
         })

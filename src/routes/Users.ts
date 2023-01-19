@@ -82,10 +82,11 @@ async function verifyLogin(req, res) {
 }
 
 async function createNewUser(req, res) {
-    const { name, password } = req.body;
+    const { id, name, password } = req.body;
     if (name) {
         const create = await prisma.users.create({
             data: {
+                id: Number(id),
                 name: String(name),
                 password: password ? String(password) : "0000",
             },

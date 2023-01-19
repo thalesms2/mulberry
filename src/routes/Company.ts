@@ -23,10 +23,13 @@ async function getCompanyPerId(req, res) {
 }
 
 async function createCompany (req, res) {
-    const { name } = req.body;
+    const { id, name } = req.body;
     if (name) {
         const result = await prisma.company.create({
-            data: { name: String(name) },
+            data: { 
+                id: Number(id),
+                name: String(name) 
+            },
         });
         res.json(result);
     } else {

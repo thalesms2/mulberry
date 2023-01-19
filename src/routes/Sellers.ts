@@ -42,6 +42,7 @@ async function  createNewSeller(req, res) {
         if (id && name && comission) {
             const result = await prisma.sellers.create({
                 data: {
+                    id: Number(id),
                     name: String(name),
                     comission: Number(comission),
                 },

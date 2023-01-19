@@ -48,6 +48,7 @@ async function createNewCity(req, res) {
                     statesCode: String(codeState),
                 },
             });
+            
             const result = {
                 city: city,
                 log: await generateLog(
