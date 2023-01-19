@@ -38,22 +38,21 @@ async function getCityPerCode (req, res) {
 }
 
 async function createNewCity(req, res) {
-    const { name, codeState, userId } = req.body;
+    const { code, name, codeState, userId } = req.body;
     try {
-        if (name && codeState && userId) {
+        if (code && name && codeState && userId) {
             const city = await prisma.citys.create({
                 data: {
+                    code: Number(code),
                     name: String(name),
-                    state: {
-                        connect: { code: String(codeState) },
-                    },
+                    statesCode: String(codeState),
                 },
             });
             const result = {
                 city: city,
                 log: await generateLog(
                     'CREATE',
-                    `CITY ${city.code} - ${city.name}-${city.statesCode} CREATED`,
+                    `CITY ${city.code} - ${city.name} - ${city.statesCode} CREATED`,
                     Number(userId)
                 )
             }

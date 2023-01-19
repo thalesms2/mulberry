@@ -83,7 +83,7 @@ model Users {
 }
 
 model Logs {
-  id          Int      @id
+  id          Int      @id @default(autoincrement())
   type        String
   description String
   userId      Int
