@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Brands {
-  id          Int        @id @default(autoincrement())
+  id          Int        @id
   description String
   Products    Products[]
 
@@ -16,7 +16,7 @@ model Brands {
 }
 
 model Groups {
-  id          Int        @id @default(autoincrement())
+  id          Int        @id
   description String
   Products    Products[]
 
@@ -24,7 +24,7 @@ model Groups {
 }
 
 model Measurements {
-  id          Int    @id @default(autoincrement())
+  id          Int    @id
   description String
   initials    String
 
@@ -32,7 +32,7 @@ model Measurements {
 }
 
 model Products {
-  id           Int            @id @default(autoincrement())
+  id           Int            @id
   description  String
   measurement  String
   cost         Decimal
@@ -48,7 +48,7 @@ model Products {
 }
 
 model Transactions {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id
   type        String
   transaction String
   productId   Int
@@ -63,7 +63,7 @@ model Transactions {
 }
 
 model Inventory {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id
   productId Int
   quantity  Decimal
   Product   Products @relation(fields: [productId], references: [id])
@@ -72,7 +72,7 @@ model Inventory {
 }
 
 model Users {
-  id           Int            @id @default(autoincrement())
+  id           Int            @id
   name         String
   password     String
   Logs         Logs[]
@@ -83,7 +83,7 @@ model Users {
 }
 
 model Logs {
-  id          Int      @id @default(autoincrement())
+  id          Int      @id
   type        String
   description String
   userId      Int
@@ -102,7 +102,7 @@ model States {
 }
 
 model Citys {
-  code       Int       @id @default(autoincrement())
+  code       Int       @id
   name       String
   statesCode String
   state      States    @relation(fields: [statesCode], references: [code])
@@ -112,7 +112,7 @@ model Citys {
 }
 
 model Sellers {
-  id        Int     @id @default(autoincrement())
+  id        Int     @id
   name      String
   comission Decimal
   Sells     Sells[]
@@ -121,7 +121,7 @@ model Sellers {
 }
 
 model Clients {
-  id           Int     @id @default(autoincrement())
+  id           Int     @id
   name         String
   cpf          String
   cityId       Int
@@ -154,7 +154,7 @@ model Sells {
 }
 
 model Items {
-  id           Int      @id @default(autoincrement())
+  id           Int      @id
   productId    Int
   unitaryPrice Decimal
   discount     Decimal
@@ -169,7 +169,7 @@ model Items {
 }
 
 model Company {
-  id   Int    @id @default(autoincrement())
+  id   Int    @id
   name String
 
   @@map("company")

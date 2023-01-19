@@ -34,11 +34,11 @@ async function getBrandPerId(req, res) {
 }
 
 async function createNewBrand(req, res) {
-    const { description, userId } = req.body;
+    const { id, description, userId } = req.body;
     try {
-        if (description && userId) {
+        if (id && description && userId) {
             const brand = await prisma.brands.create({
-                data: { description: String(description) },
+                data: { id: Number(id), description: String(description) },
             });
             const result = {
                 brand: brand,
