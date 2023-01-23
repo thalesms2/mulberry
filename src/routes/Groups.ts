@@ -13,40 +13,52 @@ router.delete("/", deleteGroupPerId);
 router.delete("/all", deleteAllGroups);
 
 async function getAllGroups(req, res) {
-    const groups = await prisma.groups.findMany();
-    res.json(groups);
+    try {
+        const groups = await prisma.groups.findMany();
+        res.json(groups);
+    } catch(err) {
+        res.json(err)
+    }
 }
 
 async function getGroupPerId(req, res) {
     const id = req.params.id;
-    const group = await prisma.groups.findUnique({
-        where: {
-            id: Number(id),
-        },
-    });
-    res.json(group)
+    try {
+        const group = await prisma.groups.findUnique({
+            where: {
+                id: Number(id),
+            },
+        });
+        res.json(group)
+    } catch(err) {
+        res.json(err)
+    }
 }
 
 async function createNewGroup (req, res) {
     const { id, description, userId } = req.body;
-    if(id && description && userId) {
-        const group = await prisma.groups.create({
-            data: {
-                id: Number(id),
-                description: String(description),
-            },
-        });
-        const result = {
-            group: group,
-            log: await generateLog(
-                "CREATE",
-                `GROUP ${group.id} - ${group.description} CREATED`,
-                Number(userId)
-            )
+    try {
+        if(id && description && userId) {
+            const group = await prisma.groups.create({
+                data: {
+                    id: Number(id),
+                    description: String(description),
+                },
+            });
+            const result = {
+                group: group,
+                log: await generateLog(
+                    "CREATE",
+                    `GROUP ${group.id} - ${group.description} CREATED`,
+                    Number(userId)
+                )
+            }
+            res.json(result);
+        } else {
+            res.sendStatus(204)
         }
-        res.json(result);
-    } else {
-        res.sendStatus(204)
+    } catch(err) {
+        res.json(err)
     }
 }
 
@@ -64,18 +76,26 @@ async function editGroupPerId(req, res) {
 }
 
 async function deleteGroupPerId(req, res) {
-    const { id } = req.query;
-    const result = await prisma.groups.delete({
-        where: {
-            id: Number(id),
-        },
-    });
-    res.json(result);
+    const { id } = req.body;
+    try {
+        const result = await prisma.groups.delete({
+            where: {
+                id: Number(id),
+            },
+        });
+        res.json(result);
+    } catch (err) {
+        res.json(err)
+    }
 }
 
 async function deleteAllGroups(req, res) {
-    const result = await prisma.groups.deleteMany({});
-    res.json(result);
+    try {
+        const result = await prisma.groups.deleteMany({});
+        res.json(result);
+    } catch(err) {
+        res.json(err)
+    }
 }
 
 export default router;

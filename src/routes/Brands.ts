@@ -17,7 +17,7 @@ async function getAllBrands(req, res) {
         const brands = await prisma.brands.findMany();
         res.json(brands);
     } catch (err) {
-        res.json(`Error: ${err}`);
+        res.json(err);
     }
 }
 
