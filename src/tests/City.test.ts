@@ -13,14 +13,14 @@ describe("City testing", () => {
             userId: 1
         })
         .expect(function (res) {
-            console.log(res.body)
             res.body.city.code = 1000
             res.body.city.name = 'Test city'
             res.body.city.statesCode = 'SC'
-            res.body.log.type = 'CREATED'
+            res.body.log.type = 'CREATE'
             res.body.log.description = "CITY 1000 - Test city - SC CREATED";
             res.body.log.userId = 1;
         })
+        .expect(200)
     })
     test('Get all citys', () => {
         return request(app)
@@ -31,10 +31,11 @@ describe("City testing", () => {
         return request(app)
         .get('/city/1000')
         .expect(function (res) {
-            res.body.city.code = 1000
-            res.body.city.name = 'Test city'
-            res.body.city.statesCode = 'SC'
+            res.body.code = 1000
+            res.body.name = 'Test city'
+            res.body.statesCode = 'SC'
         })
+        .expect(200)
     })
     test('Delete a city', () => {
         return request(app)

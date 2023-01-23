@@ -52,10 +52,10 @@ async function createNewCity(req, res) {
             const result = {
                 city: city,
                 log: await generateLog(
-                    'CREATE',
+                    "CREATE",
                     `CITY ${city.code} - ${city.name} - ${city.statesCode} CREATED`,
                     Number(userId)
-                )
+                ),
             }
             res.json(result);
         } else {
