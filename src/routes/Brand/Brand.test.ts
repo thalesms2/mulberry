@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../app";
+import app from "../../app";
 
 jest.setTimeout(100000);
 describe("Brand testing", () => {

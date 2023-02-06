@@ -1,9 +1,6 @@
 import express from "express";
-import { PrismaClient } from "@prisma/client";
-import generateLog from "../controllers/generateLog";
 
 const router = express.Router();
-const prisma = new PrismaClient();
 
 // router.get("/", getAllClients);
 // router.get("/:id", getClientPerId);

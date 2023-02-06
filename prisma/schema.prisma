@@ -75,6 +75,7 @@ model Users {
   id           Int            @id
   name         String
   password     String
+  type         String
   Logs         Logs[]
   Transactions Transactions[]
   Task         Task[]

@@ -2,21 +2,21 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import brand from "./routes/Brands";
-import group from "./routes/Groups";
-import product from "./routes/Products";
-import city from "./routes/Citys";
-import client from "./routes/Clients";
+import brand from "./routes/Brand";
+import group from "./routes/Group";
+import product from "./routes/Product";
+import city from "./routes/City";
+import client from "./routes/Client";
 import company from "./routes/Company";
 import inventory from "./routes/Inventory";
-import item from "./routes/Items";
-import log from "./routes/Logs";
-import seller from "./routes/Sellers";
-import sell from "./routes/Sells";
-import state from "./routes/States";
-import transaction from "./routes/Transactions";
-import user from "./routes/Users";
-import measurement from "./routes/Measurements";
+import item from "./routes/Item";
+import log from "./routes/Log";
+import seller from "./routes/Seller";
+import sell from "./routes/Sell";
+import state from "./routes/State";
+import transaction from "./routes/Transaction";
+import user from "./routes/User";
+import measurement from "./routes/Measurement";
 
 const app = express();
 
