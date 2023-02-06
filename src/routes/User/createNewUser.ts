@@ -9,7 +9,7 @@ export default async function createNewUser(req, res) {
                 id: Number(id),
                 name: String(name),
                 password: password ? String(password) : "0000",
-                type: type,
+                type: String(type),
             },
         });
         const result = {
