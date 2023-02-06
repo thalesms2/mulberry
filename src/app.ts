@@ -17,6 +17,7 @@ import state from "./routes/State";
 import transaction from "./routes/Transaction";
 import user from "./routes/User";
 import measurement from "./routes/Measurement";
+import storage from "./routes/Storage";
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use("/sell", sell);
 app.use("/state", state);
 app.use("/transaction", transaction);
 app.use("/user", user);
+app.use("/storage", storage);
 
 export default app;
