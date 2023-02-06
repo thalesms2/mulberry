@@ -125,15 +125,14 @@ model Clients {
   id           Int     @id
   name         String
   cpf          String
-  cityId       Int
+  cityCode       Int
   street       String
   neighborhood String
   adressNumber String
   cep          String
   complement   String
-  City         Citys   @relation(fields: [cityId], references: [code])
+  City         Citys   @relation(fields: [cityCode], references: [code])
   Sells        Sells[]
-
   @@map("clients")
 }
 
