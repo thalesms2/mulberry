@@ -1,6 +1,6 @@
 import prismaClient from "../../controllers/prismaClient";
 import generateLog from "../../controllers/generateLog";
 
-export default async function editDepositPerId() {
+export default async function editDepositPerId(req, res) {
 
 }

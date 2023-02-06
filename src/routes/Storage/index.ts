@@ -10,10 +10,10 @@ import deleteAllDeposits from "./deleteAllDeposits"
 const router = express.Router()
 
 router.get("/", getAllDeposits)
-router.get("/:id", getDepositPerId)
+// router.get("/:id", getDepositPerId)
 router.post("/", createNewDeposit)
-router.put("/", editDepositPerId)
-router.delete("/", deleteDepositPerId)
-router.delete("/all", deleteAllDeposits)
+// router.put("/", editDepositPerId)
+// router.delete("/", deleteDepositPerId)
+// router.delete("/all", deleteAllDeposits)
 
 export default router;
