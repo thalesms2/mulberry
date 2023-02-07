@@ -1,11 +1,11 @@
 import prismaClient from "../../controllers/prismaClient";
 
 export default async function getAllCitysOnStateCode(req, res) {
-    const codeState = req.params.code;
+    const code = req.params.code;
     try {
-        if (codeState) {
+        if (code) {
             const result = await prismaClient.citys.findMany({
-                where: { statesCode: String(codeState) },
+                where: { statesCode: String(code) },
             });
             res.json(result);
         } else {

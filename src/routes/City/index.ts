@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", getAllCitys);
 router.get("/:code", getCityPerCode);
-router.get("/all/:codeState", getAllCitysOnStateCode);
+router.get("/all/:code", getAllCitysOnStateCode);
 router.post("/", createNewCity);
 router.put("/", editCityPerCode);
 router.delete("/", deleteCityPerId);
