@@ -125,7 +125,7 @@ model Clients {
   id           Int     @id
   name         String
   cpf          String
-  cityCode       Int
+  cityCode     Int
   street       String
   neighborhood String
   adressNumber String
@@ -133,6 +133,7 @@ model Clients {
   complement   String
   City         Citys   @relation(fields: [cityCode], references: [code])
   Sells        Sells[]
+
   @@map("clients")
 }
 
@@ -178,6 +179,7 @@ model Deposit {
   id          Int    @id
   name        String
   description String
+
   @@map("deposit")
 }
 
@@ -198,4 +200,20 @@ model Task {
   user        Users   @relation(fields: [userId], references: [id])
 
   @@map("task")
+}
+
+model Provider {
+  id           Int    @id
+  socialName   String
+  fantasyName  String
+  cnpj         String
+  ie           String
+  cep          String
+  cityCode     Int
+  street       String
+  adressNumber String
+  neighborhood String
+  complement   String
+
+  @@map("provider")
 }
