@@ -18,6 +18,7 @@ import transaction from "./routes/Transaction";
 import user from "./routes/User";
 import measurement from "./routes/Measurement";
 import storage from "./routes/Storage";
+import provider from "./routes/Provider";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use("/company", company);
 app.use("/group", group);
 app.use("/inventory", inventory);
 app.use("/measurement", measurement);
+app.use("/provider", provider);
 app.use("/item", item);
 app.use("/log", log);
 app.use("/product", product);
