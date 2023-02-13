@@ -103,11 +103,12 @@ model States {
 }
 
 model Citys {
-  code       Int       @id
+  code       Int        @id
   name       String
   statesCode String
-  state      States    @relation(fields: [statesCode], references: [code])
+  state      States     @relation(fields: [statesCode], references: [code])
   Clients    Clients[]
+  Provider   Provider[]
 
   @@map("citys")
 }
@@ -210,6 +211,7 @@ model Provider {
   ie           String
   cep          String
   cityCode     Int
+  City         Citys  @relation(fields: [cityCode], references: [code])
   street       String
   adressNumber String
   neighborhood String
